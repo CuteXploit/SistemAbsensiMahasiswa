@@ -1,0 +1,745 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ */
+package view;
+
+import controller.JadwalController;
+import database.Koneksi;
+import model.Jadwal;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author HYPE AMD
+ */
+public class FormDataJadwal extends javax.swing.JPanel {
+    private JadwalController controller = new JadwalController();
+    private DefaultTableModel model;
+    private int idJadwal = 0;
+    /**
+     * Creates new form FormDataJadwal
+     */
+    public FormDataJadwal() {
+    initComponents();
+    loadMatakuliah();
+    loadDosen();
+    isiHari();
+    isiKelas();
+    isiJam();
+    isiRuangan();
+    tampilData();
+
+    isiHari();
+}
+    private void isiHari(){
+
+    cbHari.removeAllItems();
+
+    cbHari.addItem("Senin");
+    cbHari.addItem("Selasa");
+    cbHari.addItem("Rabu");
+    cbHari.addItem("Kamis");
+    cbHari.addItem("Jumat");
+    cbHari.addItem("Sabtu");
+
+}
+    private void tampilData(){
+
+    model = new DefaultTableModel();
+
+    model.addColumn("ID");
+    model.addColumn("Kode MK");
+    model.addColumn("Mata Kuliah");
+    model.addColumn("NIDN");
+    model.addColumn("Dosen");
+    model.addColumn("Kelas");
+    model.addColumn("Hari");
+    model.addColumn("Jam");
+    model.addColumn("Ruangan");
+
+    try{
+
+        ResultSet rs = controller.tampilData();
+        model.setRowCount(0);
+        while(rs.next()){
+
+            model.addRow(new Object[]{
+            rs.getInt("id_jadwal"),
+            rs.getString("kode_mk"),
+            rs.getString("nama_mk"),
+            rs.getString("nidn"),
+            rs.getString("nama"),
+            rs.getString("kelas"),
+            rs.getString("hari"),
+            rs.getString("jam"),
+            rs.getString("ruangan")
+});
+
+        }
+
+        tblJadwal.setModel(model);
+
+    }catch(Exception e){
+
+        JOptionPane.showMessageDialog(this,e.getMessage());
+
+    }
+
+}
+    private void bersihkan(){
+
+    cbMatkul.setSelectedIndex(0);
+    cbDosen.setSelectedIndex(0);
+    cbHari.setSelectedIndex(0);
+    cbKelas.setSelectedIndex(0);
+    cbJam.setSelectedIndex(0);
+    cbRuangan.setSelectedIndex(0);
+
+    txtCari.setText("");
+
+}
+    //method combo box matkul
+    private void loadMatakuliah(){
+
+    try{
+
+        Connection con = Koneksi.getKoneksi();
+
+        Statement st = con.createStatement();
+
+        ResultSet rs = st.executeQuery(
+                "SELECT kode_mk,nama_mk FROM matakuliah");
+
+        cbMatkul.removeAllItems();
+
+        while(rs.next()){
+
+            cbMatkul.addItem(
+                rs.getString("kode_mk")+" - "+
+                rs.getString("nama_mk"));
+
+        }
+
+    }catch(Exception e){
+
+        JOptionPane.showMessageDialog(this,e.getMessage());
+
+    }
+
+}
+    //method combo box dosen
+    private void loadDosen(){
+
+    try{
+
+        Connection con = Koneksi.getKoneksi();
+
+        Statement st = con.createStatement();
+
+        ResultSet rs = st.executeQuery(
+                "SELECT nidn,nama FROM dosen");
+
+        cbDosen.removeAllItems();
+
+        while(rs.next()){
+
+            cbDosen.addItem(
+                rs.getString("nidn")+" - "+
+                rs.getString("nama"));
+
+        }
+
+    }catch(Exception e){
+
+        JOptionPane.showMessageDialog(this,e.getMessage());
+
+    }
+
+}
+    //method combo box kelas
+    private void isiKelas(){
+
+    cbKelas.removeAllItems();
+
+    cbKelas.addItem("A");
+    cbKelas.addItem("B");
+    cbKelas.addItem("C");
+    cbKelas.addItem("D");
+
+}
+    //method combo box jam
+    private void isiJam(){
+
+    cbJam.removeAllItems();
+
+    cbJam.addItem("07.30 - 09.10");
+    cbJam.addItem("09.20 - 11.00");
+    cbJam.addItem("13.00 - 14.40");
+    cbJam.addItem("14.50 - 16.30");
+
+}
+    //method combo box ruangan
+    private void isiRuangan(){
+
+    cbRuangan.removeAllItems();
+
+    cbRuangan.addItem("Lab 1");
+    cbRuangan.addItem("Lab 2");
+    cbRuangan.addItem("R101");
+    cbRuangan.addItem("R102");
+    cbRuangan.addItem("R201");
+
+}
+     public static void main(String args[]) {
+
+    javax.swing.SwingUtilities.invokeLater(new Runnable() {
+        @Override
+        public void run() {
+
+            javax.swing.JFrame frame = new javax.swing.JFrame("Data Jadwal");
+
+            frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+            frame.setContentPane(new FormDataJadwal());
+
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+
+        }
+    });
+
+}
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        cbMatkul = new javax.swing.JComboBox<>();
+        cbHari = new javax.swing.JComboBox<>();
+        cbDosen = new javax.swing.JComboBox<>();
+        cbJam = new javax.swing.JComboBox<>();
+        cbKelas = new javax.swing.JComboBox<>();
+        cbRuangan = new javax.swing.JComboBox<>();
+        btnSimpan = new javax.swing.JButton();
+        btnUbah = new javax.swing.JButton();
+        btnHapus = new javax.swing.JButton();
+        btnBatal = new javax.swing.JButton();
+        txtCari = new javax.swing.JTextField();
+        btnCari = new javax.swing.JButton();
+        btnBatal1 = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblJadwal = new javax.swing.JTable();
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel1.setText("Data Jadwal");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addContainerGap())
+        );
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel2.setText("Mata Kuliah");
+
+        jLabel3.setText("Hari");
+
+        jLabel4.setText("Dosen");
+
+        jLabel5.setText("Jam");
+
+        jLabel6.setText("Kelas");
+
+        jLabel7.setText("Ruang");
+
+        cbMatkul.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbMatkul.addActionListener(this::cbMatkulActionPerformed);
+
+        cbHari.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        cbDosen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        cbJam.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbJam.addActionListener(this::cbJamActionPerformed);
+
+        cbKelas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        cbRuangan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        btnSimpan.setBackground(new java.awt.Color(0, 102, 153));
+        btnSimpan.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnSimpan.setForeground(new java.awt.Color(255, 255, 255));
+        btnSimpan.setText("SIMPAN");
+        btnSimpan.addActionListener(this::btnSimpanActionPerformed);
+
+        btnUbah.setBackground(new java.awt.Color(204, 204, 0));
+        btnUbah.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnUbah.setForeground(new java.awt.Color(255, 255, 255));
+        btnUbah.setText("UBAH");
+        btnUbah.addActionListener(this::btnUbahActionPerformed);
+
+        btnHapus.setBackground(new java.awt.Color(204, 0, 51));
+        btnHapus.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnHapus.setForeground(new java.awt.Color(255, 255, 255));
+        btnHapus.setText("HAPUS");
+        btnHapus.addActionListener(this::btnHapusActionPerformed);
+
+        btnBatal.setBackground(new java.awt.Color(153, 153, 153));
+        btnBatal.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnBatal.setForeground(new java.awt.Color(255, 255, 255));
+        btnBatal.setText("BATAL");
+        btnBatal.addActionListener(this::btnBatalActionPerformed);
+
+        txtCari.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        txtCari.setText("Cari kelas / MK / Dosen");
+        txtCari.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCariKeyReleased(evt);
+            }
+        });
+
+        btnCari.setBackground(new java.awt.Color(0, 102, 153));
+        btnCari.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnCari.setForeground(new java.awt.Color(255, 255, 255));
+        btnCari.setText("CARI");
+        btnCari.addActionListener(this::btnCariActionPerformed);
+
+        btnBatal1.setBackground(new java.awt.Color(204, 0, 204));
+        btnBatal1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnBatal1.setForeground(new java.awt.Color(255, 255, 255));
+        btnBatal1.setText("ISI ABSEN");
+        btnBatal1.addActionListener(this::btnBatal1ActionPerformed);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cbMatkul, 0, 278, Short.MAX_VALUE)
+                            .addComponent(cbHari, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbDosen, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbKelas, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbJam, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbRuangan, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(txtCari, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnSimpan)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnUbah)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnHapus)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnBatal)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnBatal1)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCari, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel6)
+                    .addComponent(cbMatkul, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbDosen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbKelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel7)
+                            .addComponent(cbHari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbJam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbRuangan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSimpan)
+                    .addComponent(btnUbah)
+                    .addComponent(btnHapus)
+                    .addComponent(btnBatal)
+                    .addComponent(txtCari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCari)
+                    .addComponent(btnBatal1))
+                .addContainerGap())
+        );
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+        tblJadwal.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblJadwal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblJadwalMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblJadwal);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void cbJamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbJamActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbJamActionPerformed
+
+    private void cbMatkulActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMatkulActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbMatkulActionPerformed
+
+    private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
+        try{
+
+        Jadwal j = new Jadwal();
+
+        String mk = cbMatkul.getSelectedItem().toString();
+        String dosen = cbDosen.getSelectedItem().toString();
+
+        j.setKodeMk(mk.split(" - ")[0]);
+        j.setNidn(dosen.split(" - ")[0]);
+
+        j.setHari(cbHari.getSelectedItem().toString());
+        j.setKelas(cbKelas.getSelectedItem().toString());
+        j.setJam(cbJam.getSelectedItem().toString());
+        j.setRuangan(cbRuangan.getSelectedItem().toString());
+
+        controller.simpan(j);
+
+        JOptionPane.showMessageDialog(this,
+                "Data berhasil disimpan");
+
+        tampilData();
+        bersihkan();
+        
+
+    }catch(Exception e){
+
+        JOptionPane.showMessageDialog(this,e.getMessage());
+
+    }
+
+    }//GEN-LAST:event_btnSimpanActionPerformed
+
+    private void tblJadwalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblJadwalMouseClicked
+        int baris = tblJadwal.getSelectedRow();
+
+        if(baris == -1){
+            return;
+        }
+
+        idJadwal = Integer.parseInt(tblJadwal.getValueAt(baris, 0).toString());
+
+        String kodeMK = tblJadwal.getValueAt(baris, 1).toString();
+        String nidn = tblJadwal.getValueAt(baris, 3).toString();
+
+        cbKelas.setSelectedItem(tblJadwal.getValueAt(baris,5).toString());
+        cbHari.setSelectedItem(tblJadwal.getValueAt(baris,6).toString());
+        cbJam.setSelectedItem(tblJadwal.getValueAt(baris,7).toString());
+        cbRuangan.setSelectedItem(tblJadwal.getValueAt(baris,8).toString());
+
+        // memilih item ComboBox Mata Kuliah
+        for(int i=0;i<cbMatkul.getItemCount();i++){
+
+            if(cbMatkul.getItemAt(i).startsWith(kodeMK+" -")){
+                cbMatkul.setSelectedIndex(i);
+                break;
+        }
+
+    }
+
+    // memilih item ComboBox Dosen
+    for(int i=0;i<cbDosen.getItemCount();i++){
+
+        if(cbDosen.getItemAt(i).startsWith(nidn+" -")){
+            cbDosen.setSelectedIndex(i);
+            break;
+        }
+
+    }
+    }//GEN-LAST:event_tblJadwalMouseClicked
+
+    private void btnUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbahActionPerformed
+           try{
+
+        Jadwal j = new Jadwal();
+
+        String mk = cbMatkul.getSelectedItem().toString();
+        String dosen = cbDosen.getSelectedItem().toString();
+
+        j.setIdJadwal(idJadwal);
+        j.setKodeMk(mk.split(" - ")[0]);
+        j.setNidn(dosen.split(" - ")[0]);
+        j.setKelas(cbKelas.getSelectedItem().toString());
+        j.setHari(cbHari.getSelectedItem().toString());
+        j.setJam(cbJam.getSelectedItem().toString());
+        j.setRuangan(cbRuangan.getSelectedItem().toString());
+
+        controller.ubah(j);
+
+        JOptionPane.showMessageDialog(this,
+                "Data berhasil diubah");
+
+        tampilData();
+        bersihkan();
+
+    }catch(Exception e){
+
+        JOptionPane.showMessageDialog(this,e.getMessage());
+
+    }
+    }//GEN-LAST:event_btnUbahActionPerformed
+
+    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
+        if(idJadwal==0){
+
+        JOptionPane.showMessageDialog(this,
+                "Pilih data terlebih dahulu");
+
+        return;
+
+    }
+
+    int jawab = JOptionPane.showConfirmDialog(this,
+            "Yakin ingin menghapus data?");
+
+    if(jawab==JOptionPane.YES_OPTION){
+
+        controller.hapus(idJadwal);
+
+        tampilData();
+
+        bersihkan();
+
+        idJadwal=0;
+
+    }
+
+    }//GEN-LAST:event_btnHapusActionPerformed
+
+    private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
+
+    model.setRowCount(0);
+
+    try{
+
+        ResultSet rs = controller.cari(txtCari.getText());
+
+        while(rs.next()){
+
+            model.addRow(new Object[]{
+
+                rs.getInt("id_jadwal"),
+                rs.getString("kode_mk"),
+                rs.getString("nama_mk"),
+                rs.getString("nidn"),
+                rs.getString("nama"),
+                rs.getString("kelas"),
+                rs.getString("hari"),
+                rs.getString("jam"),
+                rs.getString("ruangan")
+
+            });
+
+        }
+
+    }catch(Exception e){
+
+        JOptionPane.showMessageDialog(this,e.getMessage());
+
+    }
+    }//GEN-LAST:event_btnCariActionPerformed
+
+    private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
+
+    bersihkan();
+    tampilData();
+    txtCari.setText("");
+    idJadwal = 0;
+
+    }//GEN-LAST:event_btnBatalActionPerformed
+
+    private void txtCariKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCariKeyReleased
+        btnCariActionPerformed(null);
+    }//GEN-LAST:event_txtCariKeyReleased
+
+    private void btnBatal1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatal1ActionPerformed
+// 1. Ambil baris yang dipilih user di tabel jadwal
+    int barisDipilih = tblJadwal.getSelectedRow();
+    
+    // Validasi jika belum ada jadwal yang diklik/dipilih
+    if (barisDipilih == -1) {
+        JOptionPane.showMessageDialog(this, 
+            "Silakan pilih baris jadwal pada tabel terlebih dahulu!", 
+            "Peringatan", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    try {
+        // 2. Ambil data dari kolom tabel sesuai susunan kolom model milikmu
+        // Kolom: 0=ID, 1=Kode MK, 2=Nama MK, 4=Nama Dosen, 5=Kelas
+        int idJadwalSelected = Integer.parseInt(tblJadwal.getValueAt(barisDipilih, 0).toString());
+        String namaMK = tblJadwal.getValueAt(barisDipilih, 2).toString();
+        String namaDosen = tblJadwal.getValueAt(barisDipilih, 4).toString();
+        String kelas = tblJadwal.getValueAt(barisDipilih, 5).toString();
+        
+        // 3. Buat instance FormAbsensi baru dan kirim datanya
+        FormAbsensi formAbsen = new FormAbsensi(idJadwalSelected, namaMK, namaDosen, kelas);
+        
+        // 4. Cari kontainer induk (DashboardAdmin) tempat FormDataJadwal ini menempel
+        // Kita switch/ganti isi panel tengahnya secara dinamis
+        javax.swing.JPanel pnlUtama = (javax.swing.JPanel) this.getParent();
+        pnlUtama.removeAll();
+        pnlUtama.add(formAbsen);
+        pnlUtama.repaint();
+        pnlUtama.revalidate();
+        
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, 
+            "Gagal memuat form absensi: " + e.getMessage(), 
+            "Error", JOptionPane.ERROR_MESSAGE);
+    }        
+    }//GEN-LAST:event_btnBatal1ActionPerformed
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBatal;
+    private javax.swing.JButton btnBatal1;
+    private javax.swing.JButton btnCari;
+    private javax.swing.JButton btnHapus;
+    private javax.swing.JButton btnSimpan;
+    private javax.swing.JButton btnUbah;
+    private javax.swing.JComboBox<String> cbDosen;
+    private javax.swing.JComboBox<String> cbHari;
+    private javax.swing.JComboBox<String> cbJam;
+    private javax.swing.JComboBox<String> cbKelas;
+    private javax.swing.JComboBox<String> cbMatkul;
+    private javax.swing.JComboBox<String> cbRuangan;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblJadwal;
+    private javax.swing.JTextField txtCari;
+    // End of variables declaration//GEN-END:variables
+}
