@@ -1,9 +1,9 @@
-cat > README.md <<'EOF'
 # 🎓 Sistem Absensi Mahasiswa
 
 Aplikasi desktop **Sistem Absensi Mahasiswa** berbasis Java yang digunakan untuk mengelola data mahasiswa, dosen, mata kuliah, jadwal, absensi, rekap absensi, dan laporan.
 
 ---
+https://raw.githubusercontent.com/CuteXploit/SistemAbsensiMahasiswa/refs/heads/main/Screenshot%202026-09-24%20104605.png
 
 ## ✨ Fitur
 
