@@ -4,7 +4,7 @@ Aplikasi desktop **Sistem Absensi Mahasiswa** berbasis Java yang digunakan untuk
 
 ---
 <div>
-  <img align="center" width="80%" src="https://raw.githubusercontent.com/CuteXploit/SistemAbsensiMahasiswa/refs/heads/main/Screenshot%202026-09-24%20104605.png">
+  <img align="center" width="60%" src="https://raw.githubusercontent.com/CuteXploit/SistemAbsensiMahasiswa/refs/heads/main/Screenshot%202026-09-24%20104605.png">
 </div>
 
 ## ✨ Fitur
